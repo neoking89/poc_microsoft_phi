@@ -6,3 +6,4 @@
 /test_chatbot.py
 /model
 *pycache*
+tmp*.py
