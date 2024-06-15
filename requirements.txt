@@ -1,0 +1,12 @@
+# install with pip3 install -r requirements.txt
+
+llama-cpp-python
+transformers
+accelerate
+aioconsole
+torch
+
+# Pytorch might me incompatible with local gpu. see pytorch.org to see what is needed for local CUDA version
+# torch --index-url https://download.pytorch.org/whl/cu118
+# torchvision --index-url https://download.pytorch.org/whl/cu118
+# torchaudio --index-url https://download.pytorch.org/whl/cu118

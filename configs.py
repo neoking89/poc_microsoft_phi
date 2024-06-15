@@ -1,0 +1,1 @@
+MODEL_PATH = "./model/fietje-3-mini-4k-instruct-Q5_K_M.gguf"

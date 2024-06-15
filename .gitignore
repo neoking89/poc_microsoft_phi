@@ -1,0 +1,8 @@
+/.env
+/.venv
+/app.py
+/data
+/search.py
+/test_chatbot.py
+/model
+*pycache*
