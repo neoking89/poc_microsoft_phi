@@ -14,6 +14,8 @@ In de context van deze POC, wordt dit model gebruikt om Nederlandstalige transcr
   Installeer alle benodigde dependencies
 - *python poc_summary.py*
   Vat de tekst in het script samen
+- Ga naar https://huggingface.co/BramVanroy/fietje-3-mini-4k-instruct-GGUF/tree/main en download een van de modellen
+  Plaats deze vervolgens lokaal in een nieuwe directory genaamd *"model"* en verwijs naar dit model in de file *configs.py* in de MODEL_PATH variable.
 
 ## Gebruikte Bronnen
 
