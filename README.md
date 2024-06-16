@@ -1,5 +1,7 @@
 # POC nieuw taalmodel Phi voor samenvatten Nederlandse teksten en OCR
 
+Door: Vincent 
+
 ## Overzicht
 
 Deze repository bevat een proof of concept (POC), bedoeld als experiment met een nieuw klein taalmodel ontwikkeld door Microsoft, genaamd Phi. Dit model (in GGUF-formaat) is bedoeld om lokaal op een CPU te runnen en biedt als groot voordeel dat er bv. geen GPU's nodig zijn. Daarnaast is dit model door het kleine formaat (ca 3GB) uitermate geschikt om op consumer-grade pc's te draaien.
@@ -17,7 +19,7 @@ Installeren
   Deze stap maakt en activeert een virtual environment in python
 - *pip3 install -r requirements.txt*
   Installeer alle benodigde dependencies
-- Ga naar https://huggingface.co/BramVanroy/fietje-3-mini-4k-instruct-GGUF/tree/main en download een van de modellen
+- Ga naar https://huggingface.co/BramVanroy/fietje-3-mini-4k-instruct-GGUF/tree/main en download een van de modellen.
   Plaats deze vervolgens lokaal in een nieuwe directory genaamd *"model"* en verwijs naar dit model in de file *configs.py* in de MODEL_PATH variable. Er is hier ruimte voor experiment, waarbij de verwachting is dat de kwaliteit van de samenvatting zal verbeteren met het kiezen van een groter model.
 - *python poc_summary.py*
   Vat de tekst in het script samen
