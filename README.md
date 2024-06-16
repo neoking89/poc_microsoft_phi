@@ -36,13 +36,13 @@ De gebruikte inputdata (voor samenvatten en ocr) is direct terug te vinden in de
 
 De samenvatting is vrij accuraat, maar zou nog meer tot de kern kunnen komen. Opvallend is ook dat er enkele spelfouten worden gemaakt. Ik heb hiervoor het *fietje-3-mini-4k-instruct-Q5_K_M.gguf* model gebruikt. Een groter model zou de samenvatting wellicht ten goede komen. Wat opvalt, is dat de samenvatting ontzettend snel gegenereerd wordt op een CPU.
 
-logs:
+*logs:*
 
-llama_print_timings:        load time =   10456.05 ms
-llama_print_timings:      sample time =      29.20 ms /   255 runs   (    0.11 ms per token,  8734.07 tokens per second)
-llama_print_timings: prompt eval time =   15002.58 ms /   730 tokens (   20.55 ms per token,    48.66 tokens per second)
-llama_print_timings:        eval time =   16445.57 ms /   254 runs   (   64.75 ms per token,    15.44 tokens per second)
-llama_print_timings:       total time =   31598.13 ms /   984 tokens
+- llama_print_timings:        load time =   10456.05 ms
+- llama_print_timings:      sample time =      29.20 ms /   255 runs   (    0.11 ms per token,  8734.07 tokens per second)
+- llama_print_timings: prompt eval time =   15002.58 ms /   730 tokens (   20.55 ms per token,    48.66 tokens per second)
+- llama_print_timings:        eval time =   16445.57 ms /   254 runs   (   64.75 ms per token,    15.44 tokens per second)
+- llama_print_timings:       total time =   31598.13 ms /   984 tokens
 
 ***Resultaten van poc_ocr.py:***
 
