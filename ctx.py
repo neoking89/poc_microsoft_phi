@@ -1,10 +1,21 @@
 from typing import List, Dict
-from transformers import AutoTokenizer
+from transformers import PreTrainedTokenizer
 
 class ContextManagement:
 
-    def __init__(self, max_available_tokens: int = 3000):
-        self.tokenizer = AutoTokenizer.from_pretrained("microsoft/Phi-3-mini-4k-instruct")
+    def __init__(self, tokenizer: PreTrainedTokenizer, max_available_tokens: int = 3000):
+        """
+        Initializes the context management for the LLM, allowing control over the context length.
+
+        Parameters
+        ----------
+        tokenizer : str
+            The tokenizer to be used for the context management.
+            Usually gotten like: AutoTokenizer.from_pretrained("model_name").
+        max_available_tokens : int, optional
+            Maximum tokens available for context management (default is 3000).
+        """
+        self.tokenizer = tokenizer
         self.max_available_tokens = max_available_tokens
 
     def __count_tokens__(self, content: str) -> int:

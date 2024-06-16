@@ -4,14 +4,17 @@ import torch
 from llama_cpp import Llama
 from ctx import ContextManagement
 from typing import List, Dict, Generator
+from transformers import AutoTokenizer
 
 class LLM:
-    def __init__(self, model_path: str, max_available_tokens: int = 2560, **kwargs) -> None:
+    def __init__(self, model_path: str, tokenizer_path: str,  max_available_tokens: int = 2560, **kwargs) -> None:
         """
         Initializes the LLM (Large Language Model) with specified parameters.
 
         Parameters
         ----------
+        tokenizer_path : str
+            The path to the tokenizer.
         model_path : str
             The path to the LLM model.
         max_available_tokens : int, optional
@@ -19,6 +22,7 @@ class LLM:
         **kwargs
             Additional keyword arguments for model configuration.
         """
+        tokenizer = AutoTokenizer.from_pretrained(tokenizer_path)
         self.llm = Llama(
             model_path=model_path,
             n_gpu_layers=kwargs.get("n_gpu_layers", -1),
@@ -26,7 +30,7 @@ class LLM:
             n_ctx=kwargs.get("n_ctx", 4096),
             n_threads=kwargs.get("n_threads", 8),
         )
-        self.ctx = ContextManagement(max_available_tokens)
+        self.ctx = ContextManagement(tokenizer, max_available_tokens)
         self.check_gpu_availability()
 
     def check_gpu_availability(self) -> None:
