@@ -1,6 +1,6 @@
 # POC nieuw taalmodel Phi voor samenvatten Nederlandse teksten en OCR
 
-Door: Vincent 
+Door: Vincent Ouwendijk
 
 ## Overzicht
 
