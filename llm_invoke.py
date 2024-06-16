@@ -6,8 +6,15 @@ from ctx import ContextManagement
 from typing import List, Dict, Generator
 from transformers import AutoTokenizer
 
+
 class LLM:
-    def __init__(self, model_path: str, tokenizer_path: str,  max_available_tokens: int = 2560, **kwargs) -> None:
+    def __init__(
+        self,
+        model_path: str,
+        tokenizer_path: str,
+        max_available_tokens: int = 2560,
+        **kwargs
+    ) -> None:
         """
         Initializes the LLM (Large Language Model) with specified parameters.
 
@@ -42,7 +49,9 @@ class LLM:
         else:
             print("GPU is not available. Using CPU.")
 
-    def stream(self, messages: List[Dict[str, str]], **kwargs) -> Generator[str, None, None]:
+    def stream(
+        self, messages: List[Dict[str, str]], **kwargs
+    ) -> Generator[str, None, None]:
         """
         Streams the output from the LLM based on the input messages.
 
@@ -101,5 +110,5 @@ class LLM:
         """
         bos_token = self.ctx.tokenizer.bos_token
         if text.startswith(bos_token):
-            return text[len(bos_token):]
+            return text[len(bos_token) :]
         return text
