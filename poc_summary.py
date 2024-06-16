@@ -4,9 +4,8 @@ import asyncio
 import string
 from typing import AsyncGenerator
 from llm_invoke import LLM
-from configs import MODEL_PATH
 
-llm = LLM(MODEL_PATH)
+llm = LLM(tokenizer_path="microsoft/Phi-3-mini-4k-instruct", model_path="./model/fietje-3-mini-4k-instruct-Q5_K_M.gguf")
 
 text = """
 spreker 1:
@@ -48,6 +47,7 @@ Ja, we zullen ons best doen. Bedankt voor de vergadering, Jan.
 spreker 1:
 Dank jullie wel. Vergadering gesloten.
 """
+
 
 async def summarize_text(max_words: int = 150) -> AsyncGenerator[str, None]:
     """
@@ -99,6 +99,7 @@ async def summarize_text(max_words: int = 150) -> AsyncGenerator[str, None]:
     if buffer:
         yield buffer
 
+
 async def main(max_words: int = 150) -> None:
     """
     Main function to run the text summarization and print the result.
@@ -111,6 +112,7 @@ async def main(max_words: int = 150) -> None:
     print("Samenvatting:")
     async for part in summarize_text(max_words):
         print(part, end="", flush=True)
+
 
 if __name__ == "__main__":
     asyncio.run(main())
