@@ -4,7 +4,7 @@ Door: Vincent Ouwendijk
 
 ## Overzicht
 
-Deze repository bevat een proof of concept (POC), bedoeld als experiment met een nieuw klein taalmodel ontwikkeld door Microsoft, genaamd Phi. Dit model (in GGUF-formaat) is bedoeld om lokaal op een CPU te runnen en biedt als groot voordeel dat er bv. geen GPU's nodig zijn. Daarnaast is dit model door het kleine formaat (ca 3GB) uitermate geschikt om op consumer-grade pc's te draaien.
+Deze repository bevat een proof of concept (POC), bedoeld als experiment met een nieuw klein taalmodel ontwikkeld door Microsoft, genaamd Phi. Dit model (in GGUF-formaat) kan lokaal op een CPU te runnen en biedt als groot voordeel dat er bv. geen GPU's nodig zijn. Daarnaast is dit model door het kleine formaat (ca 3GB) uitermate geschikt om op consumer-grade pc's te draaien.
 
 In deze POC wordt dit model voor 2 toepassingen gebruikt:
 
