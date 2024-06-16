@@ -1,8 +1,8 @@
 # POC nieuw taalmodel Phi voor samenvatten Nederlandse teksten en OCR
 
-Door: Vincent Ouwendijk
+**Door: Vincent Ouwendijk**
 
-## Overzicht
+## Intro
 
 Deze repository bevat een proof of concept (POC), bedoeld als experiment met een nieuw klein taalmodel ontwikkeld door Microsoft, genaamd Phi. Dit model (in GGUF-formaat) kan lokaal op een CPU worden gerund en biedt als groot voordeel dat er bv. geen GPU's nodig zijn. Daarnaast is dit model door het kleine formaat (ca 3GB) uitermate geschikt om op consumer-grade pc's te draaien.
 
@@ -30,7 +30,7 @@ Installeren
 
 De gebruikte inputdata (voor samenvatten en ocr) is direct terug te vinden in de relevante scripts.
 
-*poc_summary.py:*
+***Resultaten van poc_summary.py:***
 
 *De spreker begint een vergadering over het invoeren van appels en vraagt Henk om een update. Er wordt besproken dat er sprake is van een contract met Frankrijkse leveranciers, maar sommige appels niet aan kwaliteitseisen voldoen. Jan heeft klachten ontvangen over de kwaliteit, maar deze zijn minimaal. Er worden levertijden op schema gehouden, al waren er kleine vertragingen die ingewikkeld werden. Logistieke problemen bij douane in Rotterdam worden genoemd. Het wordt voorgesteld om lokale leveranciers te overwegen als oplossing en Henk zal onderzoek doen naar lokale opties, terwijl Raggamuffin contacten heeft die hij kan benaderen. De spreker wil de evaluatie van deze opties ontvangen en is dankbaar voor het inzetten van alle betrokken partijen. De vergadering sluit af met een bedankje aan Henk en Raggamuffin, waarna Jan de updates zal volgen over de voortgang.*
 
@@ -44,11 +44,11 @@ llama_print_timings: prompt eval time =   15002.58 ms /   730 tokens (   20.55 m
 llama_print_timings:        eval time =   16445.57 ms /   254 runs   (   64.75 ms per token,    15.44 tokens per second)
 llama_print_timings:       total time =   31598.13 ms /   984 tokens
 
-*poc_ocr.py:*
+***Resultaten van poc_ocr.py:***
 
 *The image contains a bar chart with three categories: Bovenste (10%), Middelste (40%), and Onderste (50%). Each category has a corresponding bar divided into two colors, red and blue, with percentages and monetary values indicated. The red portion of the bar represents 36%, 40%, and 55% respectively, while the blue portion represents the remaining percentage. There is also a note pointing to the blue portion of the bars with the text "Betaalde belasting" and "Jaarinkomen (bruto, gemiddeld)". The monetary values are €51.845, €54.865, and €17.524 for Bovenste, Middelste, and Onderste respectively. The text "Jaarinkomen (bruto, gemiddeld)" suggests that the values are net income after taxes.*
 
-Alhoewel dit model alleen in het Engels beschikbaar is, weet het model de meegegeven foto 100% accuraat te beschrijven.
+Alhoewel dit model alleen in het Engels beschikbaar is, weet het de meegegeven foto 100% accuraat te beschrijven.
 
 ***Let op dat het gebruikte model in de code voor OCR wel op de GPU gerund moet worden.***
 
