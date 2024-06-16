@@ -13,7 +13,7 @@ In deze POC wordt dit model voor 2 toepassingen gebruikt:
 
 In de context van deze POC, wordt dit model gebruikt om Nederlandstalige transcripten samen te vatten. Hierbij wordt de gegenereerde samenvatting live gestreamd naar de console, waardoor het voor de gebruiker direct inzichtelijk is wat voor tekst er gegenereerd wordt.
 
-Installeren
+## Installeren
 
 - *commandline -> setup_py_project1.ps1*
   Deze stap maakt en activeert een virtual environment in python
