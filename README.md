@@ -4,7 +4,7 @@ Door: Vincent Ouwendijk
 
 ## Overzicht
 
-Deze repository bevat een proof of concept (POC), bedoeld als experiment met een nieuw klein taalmodel ontwikkeld door Microsoft, genaamd Phi. Dit model (in GGUF-formaat) kan lokaal op een CPU te runnen en biedt als groot voordeel dat er bv. geen GPU's nodig zijn. Daarnaast is dit model door het kleine formaat (ca 3GB) uitermate geschikt om op consumer-grade pc's te draaien.
+Deze repository bevat een proof of concept (POC), bedoeld als experiment met een nieuw klein taalmodel ontwikkeld door Microsoft, genaamd Phi. Dit model (in GGUF-formaat) kan lokaal op een CPU worden gerund en biedt als groot voordeel dat er bv. geen GPU's nodig zijn. Daarnaast is dit model door het kleine formaat (ca 3GB) uitermate geschikt om op consumer-grade pc's te draaien.
 
 In deze POC wordt dit model voor 2 toepassingen gebruikt:
 
@@ -48,7 +48,7 @@ llama_print_timings:       total time =   31598.13 ms /   984 tokens
 
 *The image contains a bar chart with three categories: Bovenste (10%), Middelste (40%), and Onderste (50%). Each category has a corresponding bar divided into two colors, red and blue, with percentages and monetary values indicated. The red portion of the bar represents 36%, 40%, and 55% respectively, while the blue portion represents the remaining percentage. There is also a note pointing to the blue portion of the bars with the text "Betaalde belasting" and "Jaarinkomen (bruto, gemiddeld)". The monetary values are €51.845, €54.865, and €17.524 for Bovenste, Middelste, and Onderste respectively. The text "Jaarinkomen (bruto, gemiddeld)" suggests that the values are net income after taxes.*
 
-Alhoewel dit model alleen in het Engels beschikbaar is, weet het model de meegegeven foto 100% accuraat te beschrijven. 
+Alhoewel dit model alleen in het Engels beschikbaar is, weet het model de meegegeven foto 100% accuraat te beschrijven.
 
 ***Let op dat het gebruikte model in de code voor OCR wel op de GPU gerund moet worden.***
 
