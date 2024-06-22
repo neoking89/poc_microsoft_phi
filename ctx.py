@@ -3,7 +3,7 @@ from transformers import PreTrainedTokenizer
 
 class ContextManagement:
 
-    def __init__(self, tokenizer: PreTrainedTokenizer, max_available_tokens: int = 3000):
+    def __init__(self, tokenizer: PreTrainedTokenizer, context_length: int = 3000):
         """
         Initializes the context management for the LLM, allowing control over the context length.
 
@@ -12,11 +12,11 @@ class ContextManagement:
         tokenizer : str
             The tokenizer to be used for the context management.
             Usually gotten like: AutoTokenizer.from_pretrained("model_name").
-        max_available_tokens : int, optional
+        context_length : int, optional
             Maximum tokens available for context management (default is 3000).
         """
         self.tokenizer = tokenizer
-        self.max_available_tokens = max_available_tokens
+        self.context_length = context_length
 
     def __count_tokens__(self, content: str) -> int:
         return len(self.tokenizer.tokenize(content))
@@ -40,8 +40,8 @@ class ContextManagement:
             content = message.get("content")
             message_tokens = self.__count_tokens__(content)
             
-            if current_length + message_tokens >= self.max_available_tokens:
-                tokens_to_keep = self.max_available_tokens - current_length
+            if current_length + message_tokens >= self.context_length:
+                tokens_to_keep = self.context_length - current_length
                 if tokens_to_keep > 0:
                     content = self.__pad_tokens__(content, tokens_to_keep)
                     current_length += tokens_to_keep
