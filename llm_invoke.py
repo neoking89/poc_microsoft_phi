@@ -12,7 +12,7 @@ class LLM:
         self,
         model_path: str,
         tokenizer_path: str,
-        max_available_tokens: int = 2560,
+        context_length: int = 2560,
         **kwargs
     ) -> None:
         """
@@ -24,7 +24,7 @@ class LLM:
             The path to the tokenizer.
         model_path : str
             The path to the LLM model.
-        max_available_tokens : int, optional
+        context_length : int, optional
             Maximum tokens available for context management (default is 2560).
         **kwargs
             Additional keyword arguments for model configuration.
@@ -34,10 +34,10 @@ class LLM:
             model_path=model_path,
             n_gpu_layers=kwargs.get("n_gpu_layers", -1),
             seed=kwargs.get("seed", 1337),
-            n_ctx=kwargs.get("n_ctx", 4096),
+            n_ctx=context_length,
             n_threads=kwargs.get("n_threads", 8),
         )
-        self.ctx = ContextManagement(tokenizer, max_available_tokens)
+        self.ctx = ContextManagement(tokenizer, context_length)
         self.check_gpu_availability()
 
     def check_gpu_availability(self) -> None:
