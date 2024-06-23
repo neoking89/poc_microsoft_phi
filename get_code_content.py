@@ -5,6 +5,30 @@ from typing import Generator, Tuple, List
 import pandas as pd
 
 
+def extract_docs_type_hints_and_contents_of(code: str, separator: str) -> str:
+    # Extract docstrings
+    docstring_pattern = re.compile(r"\"\"\"[\s\S]*?\"\"\"")
+    docstrings = docstring_pattern.findall(code)
+
+    # Extract function and method signatures
+    signature_pattern = re.compile(r"(\s*def\s+\w+\s*\([^)]*\)\s*:)")
+    signatures = signature_pattern.findall(code)
+
+    # Extract class definitions
+    class_pattern = re.compile(r"(class\s+\w+\s*\([^)]*\)\s*:)")
+    classes = class_pattern.findall(code)
+
+    # Extract lines starting with "==================== CONTENTS OF:"
+    contents_of_pattern = re.compile(rf"(^.*?{separator}.*?$)", re.MULTILINE)
+    contents_of_lines = contents_of_pattern.findall(code)
+
+    # Combine all extracted parts
+    extracted_parts = docstrings + signatures + classes + contents_of_lines
+    result = "\n".join(extracted_parts)
+
+    return result
+
+
 class CodeContentOrganizer:
     """
     A class to generate, organize, and optimize code content for LLM prompts.
@@ -21,7 +45,12 @@ class CodeContentOrganizer:
         Files to exclude from processing (default is None).
     """
 
-    def __init__(self, root_dir: str, exclude_dirs: List[str] = ["__pycache__"], exclude_files: List[str] = ["test"]):
+    def __init__(
+        self,
+        root_dir: str,
+        exclude_dirs: List[str] = ["__pycache__"],
+        exclude_files: List[str] = ["test"],
+    ):
         self.root_dir = root_dir
         self.exclude_dirs = exclude_dirs if exclude_dirs is not None else []
         self.exclude_files = exclude_files if exclude_files is not None else []
@@ -45,13 +74,19 @@ class CodeContentOrganizer:
                 for f in contents
                 if os.path.isfile(os.path.join(current_dir, f))
                 and f.endswith(".py")
-                and not any(exclude in os.path.join(current_dir, f) for exclude in self.exclude_files)
+                and not any(
+                    exclude in os.path.join(current_dir, f)
+                    for exclude in self.exclude_files
+                )
             ]
             dirs = [
                 d
                 for d in contents
                 if os.path.isdir(os.path.join(current_dir, d))
-                and not any(exclude in os.path.join(current_dir, d) for exclude in self.exclude_dirs)
+                and not any(
+                    exclude in os.path.join(current_dir, d)
+                    for exclude in self.exclude_dirs
+                )
             ]
 
             for index, file in enumerate(files):
@@ -85,9 +120,18 @@ class CodeContentOrganizer:
             The file path and its content.
         """
         for root, dirs, files in os.walk(self.root_dir):
-            dirs[:] = [d for d in dirs if not any(exclude in os.path.join(root, d) for exclude in self.exclude_dirs)]
+            dirs[:] = [
+                d
+                for d in dirs
+                if not any(
+                    exclude in os.path.join(root, d) for exclude in self.exclude_dirs
+                )
+            ]
             for file in files:
-                if file.endswith(".py") and not any(exclude in os.path.join(root, file) for exclude in self.exclude_files):
+                if file.endswith(".py") and not any(
+                    exclude in os.path.join(root, file)
+                    for exclude in self.exclude_files
+                ):
                     file_path = os.path.join(root, file)
                     try:
                         with open(file_path, "r", encoding="utf-8") as f:
@@ -108,15 +152,17 @@ class CodeContentOrganizer:
         content = f"{self.separator} DIRECTORY TREE STRUCTURE {self.separator}\n"
         content += "\n".join(self.generate_directory_tree())
 
-        content += f"\n\n{self.separator} CONTENTS OF FILES {self.separator}\n"
+        content += f"\n\n{self.separator} CODE CONTENT {self.separator}\n"
         file_contents = self.generate_file_contents()
         for file_path, file_content in file_contents:
-            content += f"\n{'='*20}{self.content_separator}{file_path} {'='*20}\n"
+            content += f"\n{self.separator}{self.content_separator}{file_path} {self.separator}\n"
             content += file_content
 
         return content
-    
-    def optimize_content_length(self, content: str, max_lines: int, top_p_start=0.5, increments=0.01) -> str:
+
+    def optimize_content_length(
+        self, content: str, max_lines: int, top_p_start=0.5, increments=0.01
+    ) -> str:
         """
         Optimize the code content length by filtering less relevant functions.
 
@@ -141,13 +187,14 @@ class CodeContentOrganizer:
 
         while len(lines) > max_lines and top_p > 0:
             top_index = int(len(ranking) * top_p)
-            modules_to_remove = ranking[top_index:].index.tolist()
-            content = self._remove_modules_by_name(content, modules_to_remove, self.separator)
+            modules_to_remove = ranking.iloc[top_index:].index.tolist()
+            content = self._remove_modules_by_name(
+                content, modules_to_remove, self.separator
+            )
             lines = content.split("\n")
             top_p -= increments
 
         return content
-
 
     def _rank_internal_modules(self, content: str) -> pd.Series:
         """
@@ -163,12 +210,20 @@ class CodeContentOrganizer:
         pd.Series
             A Series containing the ranking of each internal module.
         """
-        module_imports = re.findall(r'^\s*from\s+(\.\w+)\s+import|^\s*import\s+(\.\w+)', content, flags=re.MULTILINE)
-        flattened_imports = [item for sublist in module_imports for item in sublist if item]
+        module_imports = re.findall(
+            r"^\s*from\s+(\.\w+)\s+import|^\s*import\s+(\.\w+)",
+            content,
+            flags=re.MULTILINE,
+        )
+        flattened_imports = [
+            item for sublist in module_imports for item in sublist if item
+        ]
         import_counts = Counter(flattened_imports)
         return pd.Series(import_counts).sort_values(ascending=False)
 
-    def _remove_modules_by_name(self, code: str, module_names: List[str], separator: str) -> str:
+    def _remove_modules_by_name(
+        self, code: str, module_names: List[str], separator: str
+    ) -> str:
         """
         Removes modules from the codecontent-string based on their names.
 
@@ -188,16 +243,23 @@ class CodeContentOrganizer:
         """
         # Create a regex pattern to match the content blocks for the specified modules
         module_patterns = [
-            re.escape(separator) + rf"{self.content_separator}.*" + re.escape(module.replace('.', os.sep)) + r"\.py " + re.escape(separator) + r"[\s\S]*?(?=" + re.escape(separator) + r" CONTENTS OF|\Z)"
+            re.escape(separator)
+            + rf"{self.content_separator}.*"
+            + re.escape(module.replace(".", os.sep))
+            + r"\.py "
+            + re.escape(separator)
+            + r"[\s\S]*?(?="
+            + re.escape(separator)
+            + rf"{self.content_separator}|\Z)"
             for module in module_names
         ]
         module_pattern = "|".join(module_patterns)
 
         # Use re.sub to remove the matched blocks
-        code = re.sub(module_pattern, '', code, flags=re.MULTILINE)
+        code = re.sub(module_pattern, "", code, flags=re.MULTILINE)
 
         return code
-    
+
     def _rank_internal_functions(self, content: str) -> pd.Series:
         """
         Rank internal functions based on their usage within the package.
@@ -243,16 +305,17 @@ class CodeContentOrganizer:
         )
 
         # Use re.sub to remove the matched functions
-        code = re.sub(func_pattern, '', code, flags=re.MULTILINE)
+        code = re.sub(func_pattern, "", code, flags=re.MULTILINE)
 
         return code
-
 
 
 if __name__ == "__main__":
     root_dir = r".venv\Lib\site-packages\accelerate"
 
     organizer = CodeContentOrganizer(root_dir)
-    content = organizer.get_code_content()   
-    optimized_content = organizer.optimize_content_length(content, 7000)
+    content = organizer.get_code_content()
+    optimized_content = organizer.optimize_content_length(content, 5000)
+    optimized_content = extract_docs_type_hints_and_contents_of(optimized_content, organizer.separator)
+    
     print(len(optimized_content.split("\n")))
