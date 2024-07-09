@@ -9,11 +9,7 @@ from transformers import AutoTokenizer
 
 class LLM:
     def __init__(
-        self,
-        model_path: str,
-        tokenizer_path: str,
-        context_length: int = 2560,
-        **kwargs
+        self, model_path: str, tokenizer_path: str, context_length: int = 2560, **kwargs
     ) -> None:
         """
         Initializes the LLM (Large Language Model) with specified parameters.
@@ -29,6 +25,8 @@ class LLM:
         **kwargs
             Additional keyword arguments for model configuration.
         """
+        self._validate_model(model_path)
+
         tokenizer = AutoTokenizer.from_pretrained(tokenizer_path)
         self.llm = Llama(
             model_path=model_path,
@@ -112,3 +110,9 @@ class LLM:
         if text.startswith(bos_token):
             return text[len(bos_token) :]
         return text
+
+    def _validate_model(self, model_path: str):
+        if not model_path.endswith(".gguf"):
+            raise ValueError(
+                f"Invalid model file format: {model_path}. llama_cpp expects a local .gguf file."
+            )
