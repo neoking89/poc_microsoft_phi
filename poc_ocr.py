@@ -19,9 +19,12 @@ processor = AutoProcessor.from_pretrained(model_id, trust_remote_code=True)
 
 # following prompt is meant to generate a response from which the JSON can be parsed afterwards
 prompt = (
-    "<|image_1|>\Infer the complete text from the image in the url. "
-    "Then provide it the following JSON format: {'text': <complete text>, 'language': <language> }."
+    "<|image_1|>\Infer the complete text from the image. "
+    "In order to do so, first understand the image and its language."
+    "Also, add a description of the image, which best describes the content of the image."
+    "Then provide it the following JSON format: {'text': <complete text>, 'language': <language> 'description': <description>}."
     "Be aware that you should provide the COMPLETE text in the language that is displayed in the image."
+    "Do it as accurately as possible, by first understanding the image and its language and then providing the text in the JSON format."
 )
 
 messages = [
@@ -33,6 +36,7 @@ messages = [
 url = "https://media.nu.nl/m/eylxrz9agmrt_wd854.jpg"
 image = Image.open(requests.get(url, stream=True).raw)
 
+
 prompt = processor.tokenizer.apply_chat_template(
     messages, tokenize=False, add_generation_prompt=True
 )
@@ -40,7 +44,7 @@ prompt = processor.tokenizer.apply_chat_template(
 inputs = processor(prompt, [image], return_tensors="pt").to("cuda:0")
 
 generation_args = {
-    "max_new_tokens": 500,
+    "max_new_tokens": 3000,
     "temperature": 0.0,
     "do_sample": False,
 }
