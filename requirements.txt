@@ -3,6 +3,7 @@
 llama-cpp-python
 transformers
 accelerate
+bitsandbytes
 aioconsole
 torch
 
